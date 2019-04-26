@@ -9,9 +9,9 @@
 </head>
 
 <body>
-    <h1>League of legends Warmup</h1>
+    <h3>League of legends Warmup</h3>
 
-    <canvas id="gameCanvas" width="800" height="600"></canvas>
+    <canvas id="gameCanvas" width="1500" height="650"></canvas>
     <script>
 
         //Laver Canvas
@@ -38,7 +38,7 @@
         function handleMouseClick(evt) {
             //andet kode her
             //If inden for circle, få points + fjern circle
-            
+
             //hvis spillet er færdig og du vil prøve igen.
             if (showingWinScreen) {
                 playerScore = 0;
@@ -57,7 +57,7 @@
                 moveEverything();
                 drawEverything();
             }, 1000 / framesPerSecond);
-            
+
             canvas.addEventListener("mousedown", handleMouseClick);
             //Henter mus pos
             canvas.addEventListener("mousemove",
@@ -79,8 +79,12 @@
 
         //tegner stregen(stregerne) der går ned igennem.
         function drawNet() {
-            for (var i = 0; i < canvas.height; i += 40) {
-                colorRect(canvas.width / 2 - 1, i, 2, 20, "white");
+            for (var k = 150; k < canvas.width; k += 150) {
+                for (var i = 0; i < canvas.height; i += 40) {
+                    colorRect(k, i, 1, 20, "white");
+                
+                    //colorRect(canvas.width / 2 - 1, i, 2, 20, "white");
+                }
             }
         }
 
