@@ -1,14 +1,139 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Page Title</title>
+    <title>LoL Warm Up</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
-    <script src='main.js'></script>
 </head>
+
 <body>
-    
+    <h1>League of legends Warmup</h1>
+
+    <canvas id="gameCanvas" width="800" height="600"></canvas>
+    <script>
+
+        //Laver Canvas
+        var canvas;
+        var canvasContext;
+        //score
+        var playerScore;
+        //Om den skal vise win screen eller ej
+        var showingWinScreen = false;
+
+        //Udregner mus position
+        function calculateMousePos(evt) {
+            var rect = canvas.getBoundingClientRect();
+            var root = document.documentElement;
+            var mouseX = evt.clientX - rect.left - root.scrollLeft;
+            var mouseY = evt.clientY - rect.top - root.scrollTop;
+            return {
+                x: mouseX,
+                y: mouseY
+            };
+        }
+
+        //Hander Mus click
+        function handleMouseClick(evt) {
+            //andet kode her
+            //If inden for circle, få points + fjern circle
+            
+            //hvis spillet er færdig og du vil prøve igen.
+            if (showingWinScreen) {
+                playerScore = 0;
+                showingWinScreen = false;
+            }
+        }
+
+        //"animationerne" og arbejde med canvas
+        window.onload = function () {
+            //instantiere canvas
+            canvas = document.getElementById("gameCanvas");
+            canvasContext = canvas.getContext("2d");
+            // kører move og draw, 30 gange i sec.
+            var framesPerSecond = 30;
+            setInterval(function () {
+                moveEverything();
+                drawEverything();
+            }, 1000 / framesPerSecond);
+            
+            canvas.addEventListener("mousedown", handleMouseClick);
+            //Henter mus pos
+            canvas.addEventListener("mousemove",
+                function (evt) {
+                    var mousePos = calculateMousePos(evt)
+                    //paddle1Y = mousePos.y - (PADDLE_HEIGHT / 2);
+                });
+        }
+
+
+        function moveEverything() {
+            //Hvis den viser winscreen skal den ikke køre resten
+            if (showingWinScreen) {
+                return;
+            }
+
+            //spawner her
+        }
+
+        //tegner stregen(stregerne) der går ned igennem.
+        function drawNet() {
+            for (var i = 0; i < canvas.height; i += 40) {
+                colorRect(canvas.width / 2 - 1, i, 2, 20, "white");
+            }
+        }
+
+
+        function drawEverything() {
+            //Tegner via canvas funktioner
+            //background
+            colorRect(0, 0, canvas.width, canvas.height, "black");
+            //Win Screen
+            if (showingWinScreen) {
+                canvasContext.fillStyle = "white";
+                if (player1Score >= WINNING_SCORE) {
+                    canvasContext.fillText("Left Player Won!", 350, 200)
+                }
+                else if (player2Score >= WINNING_SCORE) {
+                    canvasContext.fillText("Right Player Won!", 350, 200)
+                }
+                canvasContext.fillText("Click to Continue", 350, 500);
+                return;
+            }
+            //Streger ned igennem
+            drawNet();
+            //leftplayer paddle
+            colorRect(0, paddle1Y, PADDLE_THICKNESS, PADDLE_HEIGHT, "white");
+            //rightplayer paddle
+            colorRect(canvas.width - PADDLE_THICKNESS, paddle2Y, PADDLE_THICKNESS, PADDLE_HEIGHT, "white");
+            //ball
+            colorCircle(ballX, ballY, 10, "white");
+            //The Score
+            canvasContext.fillText(player1Score, 100, 100);
+            canvasContext.fillText(player2Score, canvas.width - 100, 100);
+        }
+
+        //bruger canvas funks, til at tegne+farve en cirkel.
+        function colorCircle(centerX, centerY, radius, drawColor) {
+            //ball
+            canvasContext.fillStyle = drawColor;
+            canvasContext.beginPath();
+            canvasContext.arc(centerX, centerY, radius, 0, Math.PI * 2, true);
+            canvasContext.fill();
+        }
+
+        //bruger canvas funks, til at tegne+farve en rect.
+        function colorRect(leftX, topY, width, height, drawColor) {
+            canvasContext.fillStyle = drawColor;
+            canvasContext.fillRect(leftX, topY, width, height);
+        }
+
+
+
+
+
+    </script>
 </body>
+
 </html>
