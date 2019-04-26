@@ -9,7 +9,8 @@
 </head>
 
 <body>
-    <h3>League of legends Warmup</h3>
+    <h3>LEAGUE OF LEGENDS WARMUP</h3>
+    
 
     <canvas id="gameCanvas" width="1500" height="650"></canvas>
     <script>
@@ -133,6 +134,12 @@
             canvasContext.fillRect(leftX, topY, width, height);
         }
 
+        //spawn generator
+        function objGenerator(){
+            var spawnPointWidth = Math.floor(Math.random() * canvas.width);
+            var spawnPointHeight = Math.floor(Math.random() * canvas.height);
+
+        }
 
 
 
