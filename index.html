@@ -9,7 +9,7 @@
 </head>
 
 <body>
-    <h3>LEAGUE OF LEGENDS WARMUP</h3>
+    <h3 id="title">LEAGUE OF LEGENDS WARMUP</h3>
 
 
     <canvas id="gameCanvas" width="1500" height="650"></canvas>
@@ -20,6 +20,7 @@
         var canvasContext;
         //score
         var playerScore = 0;
+        var highScore = 0;
         //Om den skal vise win screen eller ej
         var showingWinScreen = false;
 
@@ -41,11 +42,15 @@
             //andet kode her
             //If inden for circle, få points + fjern circle
             var mousePos = calculateMousePos(evt);
-            if ((posholdWidth - ((timer % difficulty) / 2)) < mousePos.x && mousePos.x < (posholdWidth + ((timer % difficulty) / 2))) {
-                if ((posholdHeight - ((timer % difficulty) / 2)) < mousePos.y && mousePos.y < (posholdheight + ((timer % difficulty) / 2))) {
+
+            if ((posholdWidth - ((timer % difficulty))) < mousePos.x && mousePos.x < (posholdWidth + ((timer % difficulty)))) {
+                if ((posholdHeight - ((timer % difficulty))) < mousePos.y && mousePos.y < (posholdHeight + ((timer % difficulty)))) {
                     playerScore += (difficulty - timer % difficulty);
                     timer = difficulty;
-                    console.log(playerScore)
+                }
+            } else {
+                if (!showingWinScreen) {
+                    playerScore -= 5;
                 }
             }
 
@@ -93,8 +98,14 @@
                 return;
             }
 
-            if (gametime > difficulty * 5) {
+            if (gametime > endGametime) {
+
                 showingWinScreen = true;
+
+                if (playerScore>highScore){
+                    highScore=playerScore;
+                    document.getElementById("title").innerHTML = "LEAGUE OF LEGENDS WARMUP - Highscore: "+highScore; 
+                }
             }
 
         }
@@ -127,6 +138,12 @@
             timer++;
             gametime++;
             //The Score
+            
+            canvasContext.font = "bold 20px ubuntu";
+            canvasContext.fillStyle = "white";
+            canvasContext.fillText("Time = " + (endGametime-gametime) , 20, 40)
+            canvasContext.fillText("Score = " + playerScore , 20, 65)
+
             //canvasContext.fillText(player1Score, 100, 100);
             //canvasContext.fillText(player2Score, canvas.width - 100, 100);
         }
@@ -136,6 +153,7 @@
         var difficulty = 50;
         var timer = 0;
         var gametime = 0;
+        var endGametime = 250
 
 
         function spawnRandomCircle() {
