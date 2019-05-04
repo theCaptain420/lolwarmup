@@ -10,7 +10,7 @@
 
 <body>
     <h3>LEAGUE OF LEGENDS WARMUP</h3>
-    
+
 
     <canvas id="gameCanvas" width="1500" height="650"></canvas>
     <script>
@@ -19,7 +19,7 @@
         var canvas;
         var canvasContext;
         //score
-        var playerScore= 0;
+        var playerScore = 0;
         //Om den skal vise win screen eller ej
         var showingWinScreen = false;
 
@@ -35,22 +35,32 @@
             };
         }
 
+        var twice = 0
         //Hander Mus click
         function handleMouseClick(evt) {
             //andet kode her
             //If inden for circle, få points + fjern circle
             var mousePos = calculateMousePos(evt);
-            if((posholdWidth-((timer%difficulty)/2))<mousePos.x && mousePos.x <(posholdWidth+((timer%difficulty)/2))){
-                timer=difficulty;
-                playerScore+=1;
-                console.log(playerScore)
+            if ((posholdWidth - ((timer % difficulty) / 2)) < mousePos.x && mousePos.x < (posholdWidth + ((timer % difficulty) / 2))) {
+                if ((posholdHeight - ((timer % difficulty) / 2)) < mousePos.y && mousePos.y < (posholdheight + ((timer % difficulty) / 2))) {
+                    playerScore += (difficulty - timer % difficulty);
+                    timer = difficulty;
+                    console.log(playerScore)
+                }
             }
-           
+
 
             //hvis spillet er færdig og du vil prøve igen.
             if (showingWinScreen) {
-                playerScore = 0;
-                showingWinScreen = false;
+                twice++;
+                if (twice == 2) {
+                    //resetter alt
+                    playerScore = 0;
+                    showingWinScreen = false;
+                    twice = 0;
+                    gametime = 0;
+                    timer = 0
+                }
             }
         }
 
@@ -59,6 +69,7 @@
             //instantiere canvas
             canvas = document.getElementById("gameCanvas");
             canvasContext = canvas.getContext("2d");
+            canvasContext.font = "bold 40px ubuntu";
             // kører move og draw, 30 gange i sec.
             var framesPerSecond = 30;
             setInterval(function () {
@@ -70,7 +81,7 @@
             //Henter mus pos
             canvas.addEventListener("mousemove",
                 function (evt) {
-                    var mousePos = calculateMousePos(evt); 
+                    var mousePos = calculateMousePos(evt);
                     //paddle1Y = mousePos.y - (PADDLE_HEIGHT / 2);
                 });
         }
@@ -81,8 +92,11 @@
             if (showingWinScreen) {
                 return;
             }
-           
-            //spawner her
+
+            if (gametime > difficulty * 5) {
+                showingWinScreen = true;
+            }
+
         }
 
         //tegner stregen(stregerne) der går ned igennem.
@@ -90,13 +104,12 @@
             for (var k = 150; k < canvas.width; k += 150) {
                 for (var i = 0; i < canvas.height; i += 40) {
                     colorRect(k, i, 1, 20, "white");
-                
+
                     //colorRect(canvas.width / 2 - 1, i, 2, 20, "white");
                 }
             }
         }
 
-        timer=0; 
         function drawEverything() {
             //Tegner via canvas funktioner
             //background
@@ -104,19 +117,15 @@
             //Win Screen
             if (showingWinScreen) {
                 canvasContext.fillStyle = "white";
-                if (player1Score >= WINNING_SCORE) {
-                    canvasContext.fillText("Left Player Won!", 350, 200)
-                }
-                else if (player2Score >= WINNING_SCORE) {
-                    canvasContext.fillText("Right Player Won!", 350, 200)
-                }
-                canvasContext.fillText("Click to Continue", 350, 500);
+
+                canvasContext.fillText("Score = " + playerScore + " Click to play again", 50, 50)
                 return;
             }
             //Streger ned igennem
             drawNet();
             spawnRandomCircle();
-            timer++; 
+            timer++;
+            gametime++;
             //The Score
             //canvasContext.fillText(player1Score, 100, 100);
             //canvasContext.fillText(player2Score, canvas.width - 100, 100);
@@ -125,22 +134,25 @@
         var posholdWidth = 100;
         var posholdHeight = 100;
         var difficulty = 50;
+        var timer = 0;
+        var gametime = 0;
 
-        function spawnRandomCircle(){
-            var ranPosWidth =  Math.floor((Math.random() * canvas.width) + 1);
-            var ranPosHeight =  Math.floor((Math.random() * canvas.height) + 1);
-            
 
-            var sizeRadius = timer%difficulty;
+        function spawnRandomCircle() {
+            var ranPosWidth = Math.floor((Math.random() * canvas.width) + 1);
+            var ranPosHeight = Math.floor((Math.random() * canvas.height) + 1);
+
+
+            var sizeRadius = timer % difficulty;
             var color = "red";
-            
-            if(timer%difficulty==0){ 
+
+            if (timer % difficulty == 0) {
                 posholdHeight = ranPosHeight;
                 posholdWidth = ranPosWidth;
             }
 
 
-            colorCircle(posholdWidth,posholdHeight,sizeRadius,color);
+            colorCircle(posholdWidth, posholdHeight, sizeRadius, color);
 
 
         }
@@ -161,7 +173,7 @@
         }
 
         //spawn generator
-        function objGenerator(){
+        function objGenerator() {
             var spawnPointWidth = Math.floor(Math.random() * canvas.width);
             var spawnPointHeight = Math.floor(Math.random() * canvas.height);
 
