@@ -19,7 +19,7 @@
         var canvas;
         var canvasContext;
         //score
-        var playerScore;
+        var playerScore= 0;
         //Om den skal vise win screen eller ej
         var showingWinScreen = false;
 
@@ -39,6 +39,13 @@
         function handleMouseClick(evt) {
             //andet kode her
             //If inden for circle, få points + fjern circle
+            var mousePos = calculateMousePos(evt);
+            if((posholdWidth-((timer%difficulty)/2))<mousePos.x && mousePos.x <(posholdWidth+((timer%difficulty)/2))){
+                timer=difficulty;
+                playerScore+=1;
+                console.log(playerScore)
+            }
+           
 
             //hvis spillet er færdig og du vil prøve igen.
             if (showingWinScreen) {
@@ -63,7 +70,7 @@
             //Henter mus pos
             canvas.addEventListener("mousemove",
                 function (evt) {
-                    var mousePos = calculateMousePos(evt)
+                    var mousePos = calculateMousePos(evt); 
                     //paddle1Y = mousePos.y - (PADDLE_HEIGHT / 2);
                 });
         }
@@ -74,7 +81,7 @@
             if (showingWinScreen) {
                 return;
             }
-
+           
             //spawner her
         }
 
@@ -89,7 +96,7 @@
             }
         }
 
-
+        timer=0; 
         function drawEverything() {
             //Tegner via canvas funktioner
             //background
@@ -108,15 +115,34 @@
             }
             //Streger ned igennem
             drawNet();
-            //leftplayer paddle
-            colorRect(0, paddle1Y, PADDLE_THICKNESS, PADDLE_HEIGHT, "white");
-            //rightplayer paddle
-            colorRect(canvas.width - PADDLE_THICKNESS, paddle2Y, PADDLE_THICKNESS, PADDLE_HEIGHT, "white");
-            //ball
-            colorCircle(ballX, ballY, 10, "white");
+            spawnRandomCircle();
+            timer++; 
             //The Score
-            canvasContext.fillText(player1Score, 100, 100);
-            canvasContext.fillText(player2Score, canvas.width - 100, 100);
+            //canvasContext.fillText(player1Score, 100, 100);
+            //canvasContext.fillText(player2Score, canvas.width - 100, 100);
+        }
+
+        var posholdWidth = 100;
+        var posholdHeight = 100;
+        var difficulty = 50;
+
+        function spawnRandomCircle(){
+            var ranPosWidth =  Math.floor((Math.random() * canvas.width) + 1);
+            var ranPosHeight =  Math.floor((Math.random() * canvas.height) + 1);
+            
+
+            var sizeRadius = timer%difficulty;
+            var color = "red";
+            
+            if(timer%difficulty==0){ 
+                posholdHeight = ranPosHeight;
+                posholdWidth = ranPosWidth;
+            }
+
+
+            colorCircle(posholdWidth,posholdHeight,sizeRadius,color);
+
+
         }
 
         //bruger canvas funks, til at tegne+farve en cirkel.
