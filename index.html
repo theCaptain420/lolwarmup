@@ -9,7 +9,7 @@
 </head>
 
 <body>
-    <h3 id="title">LEAGUE OF LEGENDS WARMUP</h3>
+    <h3 id="title">LEAGUE OF LEGENDS WARMUP</h3> <button onclick="endGametime=250">Quick</button> <button onclick="endGametime=500">Long</button>
 
 
     <canvas id="gameCanvas" width="1500" height="650"></canvas>
@@ -22,7 +22,7 @@
         var playerScore = 0;
         var highScore = 0;
         //Om den skal vise win screen eller ej
-        var showingWinScreen = false;
+        var showingWinScreen = true;
 
         //Udregner mus position
         function calculateMousePos(evt) {
@@ -69,6 +69,52 @@
             }
         }
 
+        var currentLetter = "q";
+     
+
+        function handleButtonClick(evt) {
+        //q = 113, w= 119, e=101, r= 114.
+            
+            if(evt.which == 113){
+                //q
+                if(currentLetter == "Q"){
+                    playerScore+=Math.floor(difficulty-(letterTimer % difficulty)); ;
+                    letterTimer=difficulty*2;
+                }else{
+                    playerScore-=20;
+                }
+            }else if(evt.which == 119){
+                //w
+                if(currentLetter == "W"){
+                    playerScore+=Math.floor(difficulty-(letterTimer % difficulty)); ;
+                    letterTimer=difficulty*2;
+                }else{
+                    playerScore-=20;
+                }
+            }else if(evt.which == 101){
+                //e
+                if(currentLetter == "E"){
+                    playerScore+=Math.floor(difficulty-(letterTimer % difficulty)); ;
+                    letterTimer=difficulty*2;
+                }else{
+                    playerScore-=20;
+                }
+            } else if(evt.which == 114){
+                //r
+                if(currentLetter == "R"){
+                    playerScore+=Math.floor(difficulty-(letterTimer % difficulty)); ;
+                    letterTimer=difficulty*2;
+                }else{
+                    playerScore-=20;
+                }
+            }  
+
+
+
+
+        }
+
+
         //"animationerne" og arbejde med canvas
         window.onload = function () {
             //instantiere canvas
@@ -83,6 +129,7 @@
             }, 1000 / framesPerSecond);
 
             canvas.addEventListener("mousedown", handleMouseClick);
+            window.addEventListener("keypress", handleButtonClick);
             //Henter mus pos
             canvas.addEventListener("mousemove",
                 function (evt) {
@@ -135,7 +182,9 @@
             //Streger ned igennem
             drawNet();
             spawnRandomCircle();
+            spawnRandomLetter();
             timer++;
+            letterTimer++;
             gametime++;
             //The Score
             
@@ -152,9 +201,10 @@
         var posholdHeight = 100;
         var difficulty = 50;
         var timer = 0;
+        var letterTimer = 0;
         var gametime = 0;
-        var endGametime = 250
-
+        var endGametime = 250;
+        
 
         function spawnRandomCircle() {
             var ranPosWidth = Math.floor((Math.random() * canvas.width) + 1);
@@ -175,6 +225,30 @@
 
         }
 
+        var posholdWidthText = 100;
+        var posholdHeightText = 100;
+
+        function spawnRandomLetter() {
+            var ranPosWidthText = Math.floor((Math.random() * canvas.width) + 1);
+            var ranPosHeightText = Math.floor((Math.random() * canvas.height) + 1);
+
+
+            var sizePX = letterTimer % difficulty;
+            var color = "red";
+
+            if (letterTimer % (difficulty*2) == 0) {
+                posholdHeightText = ranPosHeightText;
+                posholdWidthText = ranPosWidthText;
+                letterRandoGenerator();
+            }
+
+            
+
+            colorLetter(currentLetter,sizePX,posholdWidthText,posholdHeightText);
+
+
+        }
+
         //bruger canvas funks, til at tegne+farve en cirkel.
         function colorCircle(centerX, centerY, radius, drawColor) {
             //ball
@@ -190,12 +264,40 @@
             canvasContext.fillRect(leftX, topY, width, height);
         }
 
+        //Letter
+        function colorLetter(letter, size, width,  height){
+            
+            canvasContext.font = "bold "+size+"px ubuntu";
+            canvasContext.fillStyle = "red";
+            canvasContext.fillText(""+letter+"",width,height)
+
+
+        }
+
+        //letter gen
+        function letterRandoGenerator(){
+            //4 letters
+            var letterChooser=Math.floor((Math.random() * 4) + 1)
+            if(letterChooser==1){
+                currentLetter ="Q"
+            }else if(letterChooser==2){
+                currentLetter ="W"
+            }else if(letterChooser==3){
+                currentLetter ="E"
+            }else if(letterChooser==4){
+                currentLetter ="R"
+            }
+            
+        }
+
         //spawn generator
         function objGenerator() {
             var spawnPointWidth = Math.floor(Math.random() * canvas.width);
             var spawnPointHeight = Math.floor(Math.random() * canvas.height);
 
         }
+
+
 
 
 
