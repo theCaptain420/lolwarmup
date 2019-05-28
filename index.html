@@ -26,8 +26,11 @@
 
         //Udregner mus position
         function calculateMousePos(evt) {
+            //Retunere størrelsen på Canvas
             var rect = canvas.getBoundingClientRect();
+            //Retunere HTML doc som DOM
             var root = document.documentElement;
+            //Calc position på Canvas
             var mouseX = evt.clientX - rect.left - root.scrollLeft;
             var mouseY = evt.clientY - rect.top - root.scrollTop;
             return {
@@ -184,18 +187,18 @@
             drawNet();
             spawnRandomCircle();
             spawnRandomLetter();
+
+            //Timers
             timer++;
             letterTimer++;
             gametime++;
+
             //The Score
-            
             canvasContext.font = "bold 20px ubuntu";
             canvasContext.fillStyle = "white";
             canvasContext.fillText("Time = " + (endGametime-gametime) , 20, 40)
             canvasContext.fillText("Score = " + playerScore , 20, 65)
 
-            //canvasContext.fillText(player1Score, 100, 100);
-            //canvasContext.fillText(player2Score, canvas.width - 100, 100);
         }
 
         var posholdWidth = 100;
@@ -211,7 +214,7 @@
             var ranPosWidth = Math.floor((Math.random() * canvas.width) + 1);
             var ranPosHeight = Math.floor((Math.random() * canvas.height) + 1);
 
-
+            //radius udregner
             var sizeRadius = timer % difficulty;
             var color = "red";
 
@@ -243,7 +246,6 @@
                 letterRandoGenerator();
             }
 
-            
 
             colorLetter(currentLetter,sizePX,posholdWidthText,posholdHeightText);
 
