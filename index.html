@@ -6,14 +6,59 @@
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>LoL Warm Up</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
+
+    <style>
+        #gameCanvas {
+            border-style: solid;
+            border-width: 5px;
+            border-color: white;
+        }
+
+        body {
+            background-color: black;
+        }
+
+        h2 {
+            color: white;
+
+        }
+
+        .btnTime {
+            color: #fff !important;
+            text-transform: uppercase;
+            background: black;
+            padding: 7px;
+            border-radius: 50px;
+            display: inline-block;
+            border: none;
+        }
+
+        .btnTime:hover {
+            text-shadow: 0px 0px 6px rgba(255, 255, 255, 1);
+            -webkit-box-shadow: 0px 5px 40px -10px rgba(0, 0, 0, 0.57);
+            -moz-box-shadow: 0px 5px 40px -10px rgba(0, 0, 0, 0.57);
+            transition: all 0.4s ease 0s;
+        }
+    </style>
+
 </head>
 
+
+
 <body>
-    <h3 id="title">LEAGUE OF LEGENDS WARMUP</h3> <button onclick="endGametime=250">Quick</button> <button onclick="endGametime=500">Long</button>
+    <center>
+        <h2 id="title">LEAGUE OF LEGENDS WARMUP</h2>
+    </center>
+    <center><button class="btnTime" onclick="endGametime=250">Quick</button>
+        <button class="btnTime" onclick="endGametime=500">Long</button></center>
 
 
     <canvas id="gameCanvas" width="1500" height="650"></canvas>
     <script>
+        //1500
+
+
+
 
         //Laver Canvas
         var canvas;
@@ -73,44 +118,44 @@
         }
 
         var currentLetter = "q";
-     
+
 
         function handleButtonClick(evt) {
-        //q = 113, w= 119, e=101, r= 114.
-            
-            if(evt.which == 113){
+            //q = 113, w= 119, e=101, r= 114.
+
+            if (evt.which == 113) {
                 //q
-                if(currentLetter == "Q"){
-                    playerScore+=Math.floor(difficulty-(letterTimer % difficulty)); ;
-                    letterTimer=difficulty*2;
-                }else{
-                    playerScore-=20;
+                if (currentLetter == "Q") {
+                    playerScore += Math.floor(difficulty - (letterTimer % difficulty));;
+                    letterTimer = difficulty * 2;
+                } else {
+                    playerScore -= 20;
                 }
-            }else if(evt.which == 119){
+            } else if (evt.which == 119) {
                 //w
-                if(currentLetter == "W"){
-                    playerScore+=Math.floor(difficulty-(letterTimer % difficulty)); ;
-                    letterTimer=difficulty*2;
-                }else{
-                    playerScore-=20;
+                if (currentLetter == "W") {
+                    playerScore += Math.floor(difficulty - (letterTimer % difficulty));;
+                    letterTimer = difficulty * 2;
+                } else {
+                    playerScore -= 20;
                 }
-            }else if(evt.which == 101){
+            } else if (evt.which == 101) {
                 //e
-                if(currentLetter == "E"){
-                    playerScore+=Math.floor(difficulty-(letterTimer % difficulty)); ;
-                    letterTimer=difficulty*2;
-                }else{
-                    playerScore-=20;
+                if (currentLetter == "E") {
+                    playerScore += Math.floor(difficulty - (letterTimer % difficulty));;
+                    letterTimer = difficulty * 2;
+                } else {
+                    playerScore -= 20;
                 }
-            } else if(evt.which == 114){
+            } else if (evt.which == 114) {
                 //r
-                if(currentLetter == "R"){
-                    playerScore+=Math.floor(difficulty-(letterTimer % difficulty)); ;
-                    letterTimer=difficulty*2;
-                }else{
-                    playerScore-=20;
+                if (currentLetter == "R") {
+                    playerScore += Math.floor(difficulty - (letterTimer % difficulty));;
+                    letterTimer = difficulty * 2;
+                } else {
+                    playerScore -= 20;
                 }
-            }  
+            }
 
 
 
@@ -124,6 +169,9 @@
             //instantiere canvas
             canvas = document.getElementById("gameCanvas");
             canvasContext = canvas.getContext("2d");
+            //adjuster til vinduets størrelse
+            canvas.width = (window.innerWidth * 0.985);
+
             canvasContext.font = "bold 40px ubuntu";
             // kører move og draw, 30 gange i sec.
             var framesPerSecond = 30;
@@ -153,9 +201,9 @@
 
                 showingWinScreen = true;
 
-                if (playerScore>highScore){
-                    highScore=playerScore;
-                    document.getElementById("title").innerHTML = "LEAGUE OF LEGENDS WARMUP - Highscore: "+highScore; 
+                if (playerScore > highScore) {
+                    highScore = playerScore;
+                    document.getElementById("title").innerHTML = "LEAGUE OF LEGENDS WARMUP - Highscore: " + highScore;
                 }
             }
 
@@ -196,8 +244,8 @@
             //The Score
             canvasContext.font = "bold 20px ubuntu";
             canvasContext.fillStyle = "white";
-            canvasContext.fillText("Time = " + (endGametime-gametime) , 20, 40)
-            canvasContext.fillText("Score = " + playerScore , 20, 65)
+            canvasContext.fillText("Time = " + (endGametime - gametime), 20, 40)
+            canvasContext.fillText("Score = " + playerScore, 20, 65)
 
         }
 
@@ -208,7 +256,7 @@
         var letterTimer = 0;
         var gametime = 0;
         var endGametime = 250;
-        
+
 
         function spawnRandomCircle() {
             var ranPosWidth = Math.floor((Math.random() * canvas.width) + 1);
@@ -240,14 +288,14 @@
             var sizePX = letterTimer % difficulty;
             var color = "red";
 
-            if (letterTimer % (difficulty*2) == 0) {
+            if (letterTimer % (difficulty * 2) == 0) {
                 posholdHeightText = ranPosHeightText;
                 posholdWidthText = ranPosWidthText;
                 letterRandoGenerator();
             }
 
 
-            colorLetter(currentLetter,sizePX,posholdWidthText,posholdHeightText);
+            colorLetter(currentLetter, sizePX, posholdWidthText, posholdHeightText);
 
 
         }
@@ -268,29 +316,29 @@
         }
 
         //Letter
-        function colorLetter(letter, size, width,  height){
-            
-            canvasContext.font = "bold "+size+"px ubuntu";
+        function colorLetter(letter, size, width, height) {
+
+            canvasContext.font = "bold " + size + "px ubuntu";
             canvasContext.fillStyle = "red";
-            canvasContext.fillText(""+letter+"",width,height)
+            canvasContext.fillText("" + letter + "", width, height)
 
 
         }
 
         //letter gen
-        function letterRandoGenerator(){
+        function letterRandoGenerator() {
             //4 letters
-            var letterChooser=Math.floor((Math.random() * 4) + 1)
-            if(letterChooser==1){
-                currentLetter ="Q"
-            }else if(letterChooser==2){
-                currentLetter ="W"
-            }else if(letterChooser==3){
-                currentLetter ="E"
-            }else if(letterChooser==4){
-                currentLetter ="R"
+            var letterChooser = Math.floor((Math.random() * 4) + 1)
+            if (letterChooser == 1) {
+                currentLetter = "Q"
+            } else if (letterChooser == 2) {
+                currentLetter = "W"
+            } else if (letterChooser == 3) {
+                currentLetter = "E"
+            } else if (letterChooser == 4) {
+                currentLetter = "R"
             }
-            
+
         }
 
         //spawn generator
