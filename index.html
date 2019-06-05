@@ -271,8 +271,12 @@
                 posholdWidth = ranPosWidth;
             }
 
+            colorCircle(posholdWidth, posholdHeight, sizeRadius+10, "rgba(139, 0, 0, 0.5)");
 
-            colorCircle(posholdWidth, posholdHeight, sizeRadius, color);
+            colorCircle(posholdWidth, posholdHeight, sizeRadius, "rgba(255, 0, 0, 0.9)" );
+            
+
+            
 
 
         }
@@ -307,6 +311,8 @@
             canvasContext.beginPath();
             canvasContext.arc(centerX, centerY, radius, 0, Math.PI * 2, true);
             canvasContext.fill();
+            
+
         }
 
         //bruger canvas funks, til at tegne+farve en rect.
