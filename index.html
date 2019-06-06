@@ -39,6 +39,7 @@
             -moz-box-shadow: 0px 5px 40px -10px rgba(0, 0, 0, 0.57);
             transition: all 0.4s ease 0s;
         }
+     
     </style>
 
 </head>
@@ -49,15 +50,16 @@
     <center>
         <h2 id="title">LEAGUE OF LEGENDS WARMUP</h2>
     </center>
-    <center><button class="btnTime" onclick="endGametime=250">Quick</button>
-        <button class="btnTime" onclick="endGametime=500">Long</button></center>
+    <center><button class="btnTime" onclick="endGametime=250;progressBar.max=250">Quick</button>
+        <progress id="progressbar" max="250" value="0"></progress>
+        <button class="btnTime" onclick="endGametime=500;progressBar.max=500">Long</button></center>
 
 
     <canvas id="gameCanvas" width="1500" height="650"></canvas>
     <script>
         //1500
 
-
+    
 
 
         //Laver Canvas
@@ -68,6 +70,10 @@
         var highScore = 0;
         //Om den skal vise win screen eller ej
         var showingWinScreen = true;
+        //progressbar ins
+        var progressBar = document.getElementById("progressbar");
+
+
 
         //Udregner mus position
         function calculateMousePos(evt) {
@@ -112,6 +118,7 @@
                     showingWinScreen = false;
                     twice = 0;
                     gametime = 0;
+                    progressBar.value = 0; 
                     timer = 0
                 }
             }
@@ -241,6 +248,7 @@
             timer++;
             letterTimer++;
             gametime++;
+            progressBar.value++;
 
             //The Score
             canvasContext.font = "bold 20px ubuntu";
@@ -257,6 +265,7 @@
         var letterTimer = 0;
         var gametime = 0;
         var endGametime = 250;
+        
 
 
         function spawnRandomCircle() {
