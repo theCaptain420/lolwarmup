@@ -55,7 +55,10 @@
         <button class="btnTime" onclick="endGametime=500;progressBar.max=500">Long</button></center>
 
 
-    <canvas id="gameCanvas" width="1500" height="650"></canvas>
+    <canvas id="gameCanvas" width="1500" height="650">
+        <!--Fall back, hvis browseren ikke kan køre canvas -->
+        Please use another browser, or update your current one to play the game
+    </canvas>
     <script>
         //1500
 
