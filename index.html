@@ -93,6 +93,7 @@
             };
         }
 
+        //om man har klikket 2 gange 
         var twice = 0
         //Hander Mus click
         function handleMouseClick(evt) {
@@ -127,9 +128,10 @@
             }
         }
 
+        //base letter
         var currentLetter = "q";
 
-
+        //klikker på en knap
         function handleButtonClick(evt) {
             //q = 113, w= 119, e=101, r= 114.
 
@@ -277,7 +279,6 @@
 
             //radius udregner
             var sizeRadius = timer % difficulty;
-            var color = "red";
 
             if (timer % difficulty == 0) {
                 posholdHeight = ranPosHeight;
@@ -325,6 +326,7 @@
             canvasContext.arc(centerX, centerY, radius, 0, Math.PI * 2, true);
             canvasContext.fill();
             
+            
 
         }
 
@@ -361,6 +363,7 @@
         }
 
         //spawn generator
+        //bruges ikke
         function objGenerator() {
             var spawnPointWidth = Math.floor(Math.random() * canvas.width);
             var spawnPointHeight = Math.floor(Math.random() * canvas.height);
