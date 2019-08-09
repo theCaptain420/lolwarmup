@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title> lolwarmup - League of legends warmup and training tool - lol warm up </title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <meta name="description" content="lolwarmup is a tool to for esport  (especially leauge of legends) players to warmup or practise their mouse skills and reaction times">
+    <style>
+        #gameCanvas {
+            border-style: solid;
+            border-width: 5px;
+            border-color: white;
+        }
+
+        body {
+            background-color: black;
+        }
+
+        h2 {
+            color: white;
+
+        }
+
+        .btnTime {
+            color: #fff !important;
+            text-transform: uppercase;
+            background: black;
+            padding: 7px;
+            border-radius: 50px;
+            display: inline-block;
+            border: none;
+        }
+
+        .btnTime:hover {
+            text-shadow: 0px 0px 6px rgba(255, 255, 255, 1);
+            -webkit-box-shadow: 0px 5px 40px -10px rgba(0, 0, 0, 0.57);
+            -moz-box-shadow: 0px 5px 40px -10px rgba(0, 0, 0, 0.57);
+            transition: all 0.4s ease 0s;
+        }
+     
+    </style>
+
+</head>
+
+
+
+<body>
+    <center>
+        <h2 id="title">LEAGUE OF LEGENDS WARMUP</h2>
+    </center>
+    <center><button class="btnTime" onclick="endGametime=250;progressBar.max=250">Quick</button>
+        <progress id="progressbar" max="500" value="0"></progress>
+        <button class="btnTime" onclick="endGametime=500;progressBar.max=500">Long</button></center>
+
+
+    <canvas id="gameCanvas" width="1500" height="650">
+        <!--Fall back, hvis browseren ikke kan køre canvas -->
+        Please use another browser, or update your current one to play the game
+    </canvas>
+    <script>
+        //1500
+
+    
+
+
+        //Laver Canvas
+        var canvas;
+        var canvasContext;
+        //score
+        var playerScore = 0;
+        var highScore = 0;
+        //Om den skal vise win screen eller ej
+        var showingWinScreen = true;
+        //progressbar ins
+        var progressBar = document.getElementById("progressbar");
+
+
+
+        //Udregner mus position
+        function calculateMousePos(evt) {
+            //Retunere størrelsen på Canvas
+            var rect = canvas.getBoundingClientRect();
+            //Retunere HTML doc som DOM
+            var root = document.documentElement;
+            //Calc position på Canvas
+            var mouseX = evt.clientX - rect.left - root.scrollLeft;
+            var mouseY = evt.clientY - rect.top - root.scrollTop;
+            return {
+                x: mouseX,
+                y: mouseY
+            };
+        }
+
+        //om man har klikket 2 gange 
+        var twice = 0
+        //Hander Mus click
+        function handleMouseClick(evt) {
+            //andet kode her
+            //If inden for circle, få points + fjern circle
+            var mousePos = calculateMousePos(evt);
+
+            if ((posholdWidth - ((timer % difficulty))) < mousePos.x && mousePos.x < (posholdWidth + ((timer % difficulty)))) {
+                if ((posholdHeight - ((timer % difficulty))) < mousePos.y && mousePos.y < (posholdHeight + ((timer % difficulty)))) {
+                    playerScore += (difficulty - timer % difficulty);
+                    timer = difficulty;
+                }
+            } else {
+                if (!showingWinScreen) {
+                    playerScore -= 5;
+                }
+            }
+
+
+            //hvis spillet er færdig og du vil prøve igen.
+            if (showingWinScreen) {
+                twice++;
+                if (twice == 2) {
+                    //resetter alt
+                    playerScore = 0;
+                    showingWinScreen = false;
+                    twice = 0;
+                    gametime = 0;
+                    progressBar.value = 0; 
+                    timer = 0
+                }
+            }
+        }
+
+        //base letter
+        var currentLetter = "q";
+
+        //klikker på en knap
+        function handleButtonClick(evt) {
+            //q = 113, w= 119, e=101, r= 114.
+
+            if (evt.which == 113) {
+                //q
+                if (currentLetter == "Q") {
+                    playerScore += Math.floor(difficulty - (letterTimer % difficulty));;
+                    letterTimer = difficulty * 2;
+                } else {
+                    playerScore -= 20;
+                }
+            } else if (evt.which == 119) {
+                //w
+                if (currentLetter == "W") {
+                    playerScore += Math.floor(difficulty - (letterTimer % difficulty));;
+                    letterTimer = difficulty * 2;
+                } else {
+                    playerScore -= 20;
+                }
+            } else if (evt.which == 101) {
+                //e
+                if (currentLetter == "E") {
+                    playerScore += Math.floor(difficulty - (letterTimer % difficulty));;
+                    letterTimer = difficulty * 2;
+                } else {
+                    playerScore -= 20;
+                }
+            } else if (evt.which == 114) {
+                //r
+                if (currentLetter == "R") {
+                    playerScore += Math.floor(difficulty - (letterTimer % difficulty));;
+                    letterTimer = difficulty * 2;
+                } else {
+                    playerScore -= 20;
+                }
+            }
+
+
+
+
+        }
+
+
+        //"animationerne" og arbejde med canvas
+        //onload starter functionen ligeså snart siden starter
+        window.onload = function () {
+            //instantiere canvas
+            canvas = document.getElementById("gameCanvas");
+            canvasContext = canvas.getContext("2d");
+            //adjuster til vinduets størrelse
+            canvas.width = (window.innerWidth * 0.985);
+
+            canvasContext.font = "bold 40px ubuntu";
+            // kører move og draw, 30 gange i sec.
+            var framesPerSecond = 30;
+            setInterval(function () {
+                //Tegner det hele 30 gange i sekundet
+                moveEverything();
+                drawEverything();
+            }, 1000 / framesPerSecond);
+
+            canvas.addEventListener("mousedown", handleMouseClick);
+            window.addEventListener("keypress", handleButtonClick);
+            //Henter mus pos
+            canvas.addEventListener("mousemove",
+                function (evt) {
+                    var mousePos = calculateMousePos(evt);
+                    //paddle1Y = mousePos.y - (PADDLE_HEIGHT / 2);
+                });
+        }
+
+
+        function moveEverything() {
+            //Hvis den viser winscreen skal den ikke køre resten
+            if (showingWinScreen) {
+                return;
+            }
+
+            if (gametime > endGametime) {
+
+                showingWinScreen = true;
+
+                if (playerScore > highScore) {
+                    highScore = playerScore;
+                    document.getElementById("title").innerHTML = "LEAGUE OF LEGENDS WARMUP - Highscore: " + highScore;
+                }
+            }
+
+        }
+
+        //tegner stregen(stregerne) der går ned igennem.
+        function drawNet() {
+            for (var k = 150; k < canvas.width; k += 150) {
+                for (var i = 0; i < canvas.height; i += 40) {
+                    colorRect(k, i, 1, 20, "white");
+
+                    //colorRect(canvas.width / 2 - 1, i, 2, 20, "white");
+                }
+            }
+        }
+
+        function drawEverything() {
+            //Tegner via canvas funktioner
+            //background
+            colorRect(0, 0, canvas.width, canvas.height, "black");
+            //Win Screen
+            if (showingWinScreen) {
+                canvasContext.fillStyle = "white";
+
+                canvasContext.fillText("Score = " + playerScore + " Click to play again", 50, 50)
+                return;
+            }
+            //Streger ned igennem
+            drawNet();
+            spawnRandomCircle();
+            spawnRandomLetter();
+
+            //Timers
+            timer++;
+            letterTimer++;
+            gametime++;
+            progressBar.value++;
+
+            //The Score
+            canvasContext.font = "bold 20px ubuntu";
+            canvasContext.fillStyle = "white";
+            canvasContext.fillText("Time = " + (endGametime - gametime), 20, 40)
+            canvasContext.fillText("Score = " + playerScore, 20, 65)
+
+        }
+
+        var posholdWidth = 100;
+        var posholdHeight = 100;
+        var difficulty = 50;
+        var timer = 0;
+        var letterTimer = 0;
+        var gametime = 0;
+        var endGametime = 500;
+        
+
+
+        function spawnRandomCircle() {
+            var ranPosWidth = Math.floor((Math.random() * canvas.width) + 1);
+            var ranPosHeight = Math.floor((Math.random() * canvas.height) + 1);
+
+            //radius udregner
+            var sizeRadius = timer % difficulty;
+
+            if (timer % difficulty == 0) {
+                posholdHeight = ranPosHeight;
+                posholdWidth = ranPosWidth;
+            }
+
+            colorCircle(posholdWidth, posholdHeight, sizeRadius+10, "rgba(139, 0, 0, 0.5)");
+
+            colorCircle(posholdWidth, posholdHeight, sizeRadius, "rgba(255, 0, 0, 0.9)" );
+            
+
+            
+
+
+        }
+
+        var posholdWidthText = 100;
+        var posholdHeightText = 100;
+
+        function spawnRandomLetter() {
+            var ranPosWidthText = Math.floor((Math.random() * canvas.width) + 1);
+            var ranPosHeightText = Math.floor((Math.random() * canvas.height) + 1);
+
+
+            var sizePX = letterTimer % difficulty;
+            var color = "red";
+
+            if (letterTimer % (difficulty * 2) == 0) {
+                posholdHeightText = ranPosHeightText;
+                posholdWidthText = ranPosWidthText;
+                letterRandoGenerator();
+            }
+
+
+            colorLetter(currentLetter, sizePX, posholdWidthText, posholdHeightText);
+
+
+        }
+
+        //bruger canvas funks, til at tegne+farve en cirkel.
+        function colorCircle(centerX, centerY, radius, drawColor) {
+            //ball
+            canvasContext.fillStyle = drawColor;
+            //Starter 1 nyt object.
+            //Hvis der skal være flere objecter med forskellige farver osv. Laves et nyt ctx.beginpath()
+            canvasContext.beginPath();
+            //0 start angle / Math.PI*2 = end angle 
+            canvasContext.arc(centerX, centerY, radius, 0, Math.PI * 2, true);
+            canvasContext.fill();
+            
+            
+
+        }
+
+        //bruger canvas funks, til at tegne+farve en rect.
+        function colorRect(leftX, topY, width, height, drawColor) {
+            canvasContext.fillStyle = drawColor;
+            canvasContext.fillRect(leftX, topY, width, height);
+        }
+
+        //Letter
+        function colorLetter(letter, size, width, height) {
+
+            canvasContext.font = "bold " + size + "px ubuntu";
+            canvasContext.fillStyle = "red";
+            canvasContext.fillText("" + letter + "", width, height)
+
+
+        }
+
+        //letter gen
+        function letterRandoGenerator() {
+            //4 letters
+            var letterChooser = Math.floor((Math.random() * 4) + 1)
+            if (letterChooser == 1) {
+                currentLetter = "Q"
+            } else if (letterChooser == 2) {
+                currentLetter = "W"
+            } else if (letterChooser == 3) {
+                currentLetter = "E"
+            } else if (letterChooser == 4) {
+                currentLetter = "R"
+            }
+
+        }
+
+        //spawn generator
+        //bruges ikke
+        function objGenerator() {
+            var spawnPointWidth = Math.floor(Math.random() * canvas.width);
+            var spawnPointHeight = Math.floor(Math.random() * canvas.height);
+
+        }
+
+
+
+
+
+
+    </script>
+</body>
+
+</html>
