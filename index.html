@@ -10,45 +10,58 @@
         content="lolwarmup is a tool to for esport  (especially leauge of legends) players to warmup or practise their mouse skills and reaction times">
     <style>
         body {
-            background-color:#808080;
-            
+            background-color: #121212;
+
         }
 
         h1 {
-            color: #808080;
-            font-size: 70px;
-            background-color: white;
+            color: gray;
+            font-size: 40px;
+            background-color: #424242;
+
         }
 
         #buttonKeeper {
             display: flex;
             justify-content: space-around;
-            
+
         }
-        button{
+
+        button {
             padding: 20px;
-            background-color: white;
+            background-color: #424242;
             border: none;
             text-transform: uppercase;
             font-weight: bold;
             color: #808080;
         }
+
         button:hover {
             background-color: lightgray;
 
         }
-        .line{
-            background-color: white;
+
+        .line {
+            background-color: #424242;
             width: 1px;
             height: 750px;
         }
-        
+
+        .footer {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            color: gray;
+            text-align: center;
+        }
     </style>
 </head>
 
 <body>
     <center>
         <h1>LEAGUE OF LEGENDS WARMUP</h1>
+
     </center>
     <div id="buttonKeeper">
         <div class="buttonElement">
@@ -67,7 +80,9 @@
             <button onClick="changeWindow('reaction')"> Test your reaction time </button>
         </div>
     </div>
-
+    <div class="footer">
+            <p>This site is trademarked</p>
+          </div>
     <script>
         //function to change window
         function changeWindow(aimedWindow) {

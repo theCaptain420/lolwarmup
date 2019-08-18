@@ -7,26 +7,20 @@
     <title> lolwarmup - League of legends warmup and training tool - lol warm up </title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <meta name="description" content="lolwarmup is a tool to for esport  (especially leauge of legends) players to warmup or practise their mouse skills and reaction times">
-    
-    
     <style>
         #gameCanvas {
             border-style: solid;
             border-width: 5px;
-            border-color: #424242;
+            border-color: white;
         }
 
         body {
-            background-color: #121212;
+            background-color: black;
         }
 
         h2 {
-            color:gray;
-            background-color:#424242;
+            color: white;
 
-        }
-        #headerKeeper{
-            width:100%
         }
 
         .btnTime {
@@ -54,20 +48,17 @@
 
 <body>
     <center>
-        <div id="headerKeeper" onclick='window.open("/" + "index" + ".html", "_self");'>
-            <h2 id="title">LEAGUE OF LEGENDS WARMUP</h2>
-        </div>
+        <h2 id="title">LEAGUE OF LEGENDS WARMUP</h2>
     </center>
-    <center>
+    <center><button class="btnTime" onclick="endGametime=250;progressBar.max=250">Quick</button>
         <progress id="progressbar" max="500" value="0"></progress>
-    </center>
+        <button class="btnTime" onclick="endGametime=500;progressBar.max=500">Long</button></center>
 
 
-    <canvas id="gameCanvas" width="1500" height="800">
+    <canvas id="gameCanvas" width="1500" height="650">
         <!--Fall back, hvis browseren ikke kan køre canvas -->
         Please use another browser, or update your current one to play the game
     </canvas>
-
     <script>
         //1500
 
@@ -235,7 +226,7 @@
         function drawNet() {
             for (var k = 150; k < canvas.width; k += 150) {
                 for (var i = 0; i < canvas.height; i += 40) {
-                    colorRect(k, i, 1, 20, "gray");
+                    colorRect(k, i, 1, 20, "white");
 
                     //colorRect(canvas.width / 2 - 1, i, 2, 20, "white");
                 }
@@ -245,10 +236,10 @@
         function drawEverything() {
             //Tegner via canvas funktioner
             //background
-            colorRect(0, 0, canvas.width, canvas.height, "#121212");
+            colorRect(0, 0, canvas.width, canvas.height, "black");
             //Win Screen
             if (showingWinScreen) {
-                canvasContext.fillStyle = "gray";
+                canvasContext.fillStyle = "white";
 
                 canvasContext.fillText("Score = " + playerScore + " Click to play again", 50, 50)
                 return;
@@ -266,7 +257,7 @@
 
             //The Score
             canvasContext.font = "bold 20px ubuntu";
-            canvasContext.fillStyle = "gray";
+            canvasContext.fillStyle = "white";
             canvasContext.fillText("Time = " + (endGametime - gametime), 20, 40)
             canvasContext.fillText("Score = " + playerScore, 20, 65)
 
