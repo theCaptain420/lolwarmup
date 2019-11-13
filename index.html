@@ -55,6 +55,23 @@
             color: gray;
             text-align: center;
         }
+        #lineText {
+            color:darkgray;
+            font-size: 15px;
+    
+        }
+        .buttonElement{
+            flex:1;
+            align-items: center;
+            align-content: center;
+            text-align: center;
+            margin: auto;
+        }
+        #redLetter{
+            font:bold 35px ubuntu;
+            color:red;
+            margin:10px;
+        }
     </style>
 </head>
 
@@ -65,23 +82,40 @@
     </center>
     <div id="buttonKeeper">
         <div class="buttonElement">
+            <img src="circle.png"/>
+            <p id="redLetter">
+                Q - W - E - R
+            </p>
+            <p id="lineText">
+                Tool to help you increase your multitasking capabilities. <br/> Click the red circles as fast as possible, while clicking the buttons shown on the screen. <br/> Recommended games: League of Legends, Dota 2 and Smite.
+            </p>
             <button onClick="changeWindow('multi')"> Work on your multitasking </button>
+
         </div>
 
         <div class="line"></div>
 
         <div class="buttonElement">
+            <img src="circle.png"/>
+            <p id="lineText">
+                Tool to help you warm up and practice your aim. <br/> Click the red circles shown on screen as fast as possible. <br/> Recommended games: CSGO, Apex and Fortnite.
+            </p>
             <button onClick="changeWindow('aim')"> Work on your aim </button>
+
         </div>
 
         <div class="line"></div>
 
         <div class="buttonElement">
+            <p id="lineText">
+                Work in progress!
+            </p>
             <button onClick="changeWindow('reaction')"> Test your reaction time </button>
+
         </div>
     </div>
     <div class="footer">
-            <p>This site is trademarked</p>
+            <p>LOLWARMUP.TK</p>
           </div>
     <script>
         //function to change window
