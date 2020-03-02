@@ -269,17 +269,20 @@
             if (showingWinScreen) {
                 canvasContext.fillStyle = "gray";
                 canvasContext.font = "bold 40px ubuntu";
-                canvasContext.fillText("Score = " + playerScore + " Click to play again", 50, 50)
+                canvasContext.fillText("Final Score = " + playerScore + " ", 50, 50)
                 //colorRect(50,55,98,2,"gray")
                 canvasContext.font = "bold 20px ubuntu";
-                colorCircle(60,73,2,"gray")
-                colorCircle(60,98,2,"gray")
-                colorCircle(60,123,2,"gray")
-                colorCircle(60,148,2,"gray")
-                canvasContext.fillText("Amount of correct buttons pressed  = " + lettersHit+ "", 65, 80)
-                canvasContext.fillText("Amount of buttons missclicked  = " + lettersMissed+ "", 65, 105)
-                canvasContext.fillText("Amount of hit cicles = " + circlesHit+ "", 65, 130)
-                canvasContext.fillText("Amount of times you didn't hit a circle  = " + timesMissedACircle+ "", 65, 155)
+                colorCircle(60,73,2,"GREEN")
+                colorCircle(60,98,2,"green")
+                colorCircle(60,123,2,"red")
+                colorCircle(60,148,2,"red")
+                colorCircle(60,173,2,"gray")
+                canvasContext.fillText("Amount of hit cicles = " + circlesHit+ "", 65, 80)
+                canvasContext.fillText("Amount of correct buttons pressed  = " + lettersHit+ "", 65, 105)
+                canvasContext.fillText("Amount of times you didn't hit a circle  = " + timesMissedACircle+ "", 65, 130)
+                canvasContext.fillText("Amount of buttons missclicked  = " + lettersMissed+ "", 65, 155)
+                canvasContext.fillText("Click again to play", 65, 180)
+
 
                 return;
             }
