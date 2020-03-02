@@ -84,7 +84,12 @@
         var showingWinScreen = true;
         //progressbar ins
         var progressBar = document.getElementById("progressbar");
-
+        
+        //Stats
+        var lettersMissed = 0;
+        var lettersHit = 0;
+        var circlesHit = 0;
+        var timesMissedACircle = 0;
 
 
         //Udregner mus position
@@ -114,9 +119,11 @@
                 if ((posholdHeight - ((timer % difficulty))) < mousePos.y && mousePos.y < (posholdHeight + ((timer % difficulty)))) {
                     playerScore += (difficulty - timer % difficulty);
                     timer = difficulty;
+                    circlesHit++;
                 }
             } else {
                 if (!showingWinScreen) {
+                    timesMissedACircle++;
                     playerScore -= 5;
                 }
             }
@@ -126,7 +133,11 @@
             if (showingWinScreen) {
                 twice++;
                 if (twice == 2) {
-                    //resetter alt
+                    //resetter alt / restart
+                    lettersMissed = 0;
+                    lettersHit = 0;
+                    circlesHit = 0;
+                    timesMissedACircle = 0;
                     playerScore = 0;
                     showingWinScreen = false;
                     twice = 0;
@@ -149,7 +160,9 @@
                 if (currentLetter == "Q") {
                     playerScore += Math.floor(difficulty - (letterTimer % difficulty));;
                     letterTimer = difficulty * 2;
+                    lettersHit++;
                 } else {
+                    lettersMissed++;
                     playerScore -= 20;
                 }
             } else if (evt.which == 119) {
@@ -157,7 +170,9 @@
                 if (currentLetter == "W") {
                     playerScore += Math.floor(difficulty - (letterTimer % difficulty));;
                     letterTimer = difficulty * 2;
+                    lettersHit++;
                 } else {
+                    lettersMissed++;
                     playerScore -= 20;
                 }
             } else if (evt.which == 101) {
@@ -165,7 +180,9 @@
                 if (currentLetter == "E") {
                     playerScore += Math.floor(difficulty - (letterTimer % difficulty));;
                     letterTimer = difficulty * 2;
+                    lettersHit++;
                 } else {
+                    lettersMissed++;
                     playerScore -= 20;
                 }
             } else if (evt.which == 114) {
@@ -173,7 +190,9 @@
                 if (currentLetter == "R") {
                     playerScore += Math.floor(difficulty - (letterTimer % difficulty));;
                     letterTimer = difficulty * 2;
+                    lettersHit++;
                 } else {
+                    lettersMissed++;
                     playerScore -= 20;
                 }
             }
@@ -249,8 +268,19 @@
             //Win Screen
             if (showingWinScreen) {
                 canvasContext.fillStyle = "gray";
-
+                canvasContext.font = "bold 40px ubuntu";
                 canvasContext.fillText("Score = " + playerScore + " Click to play again", 50, 50)
+                //colorRect(50,55,98,2,"gray")
+                canvasContext.font = "bold 20px ubuntu";
+                colorCircle(60,73,2,"gray")
+                colorCircle(60,98,2,"gray")
+                colorCircle(60,123,2,"gray")
+                colorCircle(60,148,2,"gray")
+                canvasContext.fillText("Amount of correct buttons pressed  = " + lettersHit+ "", 65, 80)
+                canvasContext.fillText("Amount of buttons missclicked  = " + lettersMissed+ "", 65, 105)
+                canvasContext.fillText("Amount of hit cicles = " + circlesHit+ "", 65, 130)
+                canvasContext.fillText("Amount of times you didn't hit a circle  = " + timesMissedACircle+ "", 65, 155)
+
                 return;
             }
             //Streger ned igennem
